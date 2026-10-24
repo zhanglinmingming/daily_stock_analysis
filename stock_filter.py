@@ -24,7 +24,9 @@ def get_filter_stocks():
 if __name__ == "__main__":
     # 判断今天是否交易日
     trade_date_df = ak.tool_trade_date_hist_sina()
-    today_str = ak.get_recent_day()[0]
+    from datetime import datetime
+    today_str = datetime.now().strftime("%Y%m%d")
+
     if today_str not in trade_date_df["trade_date"].values:
         print("NOT_TRADE")
     else:
