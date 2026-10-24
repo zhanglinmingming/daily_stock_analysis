@@ -43,21 +43,17 @@ jobs:
         with:
           python-version: '3.11'
           cache: 'pip'
-
       - name: 安装Python依赖包
         run: |
           python -m pip install --upgrade pip
           pip install akshare pandas
           # pip install -r requirements.txt
           # python -c "import futu; print('✅ futu SDK import OK')"
-
-
       - name: 运行AKShare选股脚本
         id: filter_stock
         run: |
           RESULT=$(python stock_filter.py)
           echo "STOCK_LIST=$RESULT" >> $GITHUB_ENV
-
       - name: 非交易日或者无符合条件股票，直接终止任务
         if: env.STOCK_LIST == 'NOT_TRADE'
         run: echo "今日非交易日/没有筛选到符合条件股票，任务结束" && exit 0
@@ -440,7 +436,6 @@ jobs:
               export STOCK_LIST="600519"
             fi
           fi
-
            
           # 处理 LITELLM YAML 配置文件
           if [ -n "$LITELLM_CONFIG_YAML" ] && [ -n "$LITELLM_CONFIG" ]; then
@@ -515,9 +510,9 @@ jobs:
           echo "  ntfy: $([ -n "$NTFY_URL" ] && echo '✅ 已配置' || echo '⚪ 未配置')"
           echo "  Gotify: $([ -n "$GOTIFY_URL" ] && [ -n "$GOTIFY_TOKEN" ] && echo '✅ 已配置' || echo '⚪ 未配置')"
           echo "  企业微信: $([ -n "$WECHAT_WEBHOOK_URL" ] && echo '✅ 已配置' || echo '⚪ 未配置')"
-          echo "  钉钉: $( [ -n "$DINGTALK_WEBHOOK_URL" ] && echo '✅ 已配置' || echo '⚪ 未配置' )"
-          echo "  飞书: $( ([ -n "$FEISHU_WEBHOOK_URL" ] || ([ -n "$FEISHU_APP_ID" ] && [ -n "$FEISHU_APP_SECRET" ] && [ -n "$FEISHU_CHAT_ID" ]) ) && echo '✅ 已配置' || echo '⚪ 未配置')"
-          echo "  Telegram: $([ -n "$TELEGRAM_BOT_TOKEN" ] && echo '✅ 已配置'
+          echo "  钉钉: $([ -n "$DINGTALK_WEBHOOK_URL" ] && echo '✅ 已配置' || echo '⚪ 未配置')"
+          echo "  飞书: $([ -n "$FEISHU_WEBHOOK_URL" ] || ([ -n "$FEISHU_APP_ID" ] && [ -n "$FEISHU_APP_SECRET" ] && [ -n "$FEISHU_CHAT_ID" ]) && echo '✅ 已配置' || echo '⚪ 未配置')"
+          echo "  Telegram: $([ -n "$TELEGRAM_BOT_TOKEN" ] && echo '✅ 已配置' || echo '⚪ 未配置')"
           
           # 构建命令行参数
           FORCE_RUN_ARG=""
@@ -525,7 +520,6 @@ jobs:
             FORCE_RUN_ARG="--force-run"
             echo "⚡ 已启用强制运行模式（跳过交易日检查）"
           fi
-
           # 执行分析
           if [ "$MODE" = "market-only" ]; then
             python main.py --market-review $FORCE_RUN_ARG
