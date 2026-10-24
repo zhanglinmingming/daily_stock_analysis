@@ -43,11 +43,11 @@ jobs:
         with:
           python-version: '3.11'
           cache: 'pip'
+          
       - name: 安装Python依赖包
         run: |
           python -m pip install --upgrade pip
-          pip install akshare pandas python-dotenv requests
-          # pip install -r requirements.txt
+          pip install -r requirements.txt
           # python -c "import futu; print('✅ futu SDK import OK')"
 
       - name: 运行AKShare选股脚本
